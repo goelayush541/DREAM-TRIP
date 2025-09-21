@@ -1,0 +1,67 @@
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-default {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.card-elevated {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-footer {
+  padding: 20px;
+  border-top: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+/* Card variants */
+.card-primary {
+  border-left: 4px solid #3a86ff;
+}
+
+.card-success {
+  border-left: 4px solid #28a745;
+}
+
+.card-warning {
+  border-left: 4px solid #ffc107;
+}
+
+.card-danger {
+  border-left: 4px solid #dc3545;
+}
+
+/* Card sizes */
+.card-sm .card-header,
+.card-sm .card-body,
+.card-sm .card-footer {
+  padding: 16px;
+}
+
+.card-lg .card-header,
+.card-lg .card-body,
+.card-lg .card-footer {
+  padding: 24px;
+}

@@ -1,0 +1,164 @@
+.trip-planner {
+  padding: 40px 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.planner-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.planner-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.planner-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.planner-progress {
+  display: flex;
+  justify-content: space-between;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  position: relative;
+}
+
+.planner-progress::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #e9ecef;
+  z-index: 1;
+}
+
+.progress-step {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-step span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e9ecef;
+  color: #6c757d;
+  font-weight: bold;
+  margin: 0 auto 10px;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active span {
+  background: #3a86ff;
+  color: white;
+}
+
+.progress-step p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.progress-step.active p {
+  color: #3a86ff;
+}
+
+.planner-form {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-step h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-step p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.interest-card {
+  padding: 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.interest-card:hover {
+  border-color: #3a86ff;
+  transform: translateY(-2px);
+}
+
+.interest-card.selected {
+  border-color: #3a86ff;
+  background-color: #e8f4ff;
+  color: #3a86ff;
+  font-weight: 600;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .planner-progress {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .planner-progress::before {
+    display: none;
+  }
+  
+  .progress-step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .interests-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .planner-form {
+    padding: 20px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-actions button {
+    width: 100%;
+  }
+}
