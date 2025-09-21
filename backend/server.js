@@ -1,11 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const path = require('path');
-
-// Load environment variables
-dotenv.config();
 
 // Import routes
 const userRoutes = require('./routes/users');
@@ -18,29 +14,30 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND_URL 
+    : 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection
+// Database connection - with better error handling for production
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  console.error('MONGODB_URI is not defined in environment variables');
-  process.exit(1);
+if (MONGODB_URI) {
+  mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => {
+    console.log('MongoDB connection error:', err.message);
+    // Don't crash the app in production
+  });
+} else {
+  console.log('MongoDB URI not provided, running in limited mode');
 }
-
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected successfully'))
-.catch(err => {
-  console.log('MongoDB connection error:', err);
-  // Don't exit process for Vercel - let it continue without DB in read-only mode
-});
 
 // Routes
 app.use('/api/users', userRoutes);
@@ -49,38 +46,33 @@ app.use('/api/destinations', destinationRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/ai', aiRoutes);
 
-// Health check endpoint (important for Vercel)
+// Health check endpoint (essential for Vercel)
 app.get('/api/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  
   res.json({ 
     status: 'OK', 
     message: 'Server is running',
+    database: dbStatus,
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV || 'development'
   });
 });
 
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
-    message: 'DreamTrip AI Server is running!',
+    message: 'DreamTrip AI Backend Server is running!',
     version: '1.0.0',
     endpoints: {
       auth: '/api/users',
       trips: '/api/trips',
       ai: '/api/ai',
-      destinations: '/api/destinations'
+      destinations: '/api/destinations',
+      health: '/api/health'
     }
   });
 });
-
-// Serve static assets if in production (for frontend)
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
-  });
-}
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
@@ -99,13 +91,12 @@ app.use((error, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
-
-// For Vercel deployment - export the app as a serverless function
+// Export the app for Vercel serverless functions
 module.exports = app;
 
-// For local development - start the server
-if (require.main === module) {
+// Only start the server if not in Vercel environment
+if (process.env.NODE_ENV !== 'production' && require.main === module) {
+  const PORT = process.env.PORT || 5000;
   const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
