@@ -88,8 +88,8 @@ const Home = () => {
               <div className="testimonial-author">
                 <img src="/images/user1.jpg" alt="User" />
                 <div>
-                  <h4>Sarah Johnson</h4>
-                  <p>Tokyo, Japan</p>
+                  <h4>Randhir Rajput</h4>
+                  <p>Bihar, India</p>
                 </div>
               </div>
             </div>
@@ -98,8 +98,8 @@ const Home = () => {
               <div className="testimonial-author">
                 <img src="/images/user2.jpg" alt="User" />
                 <div>
-                  <h4>Michael Chen</h4>
-                  <p>Bali, Indonesia</p>
+                  <h4>Ayush Goel</h4>
+                  <p>Uttar Pradesh, India</p>
                 </div>
               </div>
             </div>
@@ -108,8 +108,8 @@ const Home = () => {
               <div className="testimonial-author">
                 <img src="/images/user3.jpg" alt="User" />
                 <div>
-                  <h4>Emma Rodriguez</h4>
-                  <p>Paris, France</p>
+                  <h4>Ananya Tandon</h4>
+                  <p>Delhi, India</p>
                 </div>
               </div>
             </div>
