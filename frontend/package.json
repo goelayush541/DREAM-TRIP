@@ -1,11 +1,9 @@
 {
-  "name": "trip-planner-frontend",
+  "name": "dreamtrip-frontend",
   "version": "1.0.0",
-  "description": "Frontend for AI-powered trip planner",
-  "main": "src/index.js",
+  "description": "Frontend for DreamTrip AI",
   "scripts": {
     "start": "react-scripts start",
-    "vercel-build": "cd frontend && npm install && npm run build && cp -r build ../backend/public/",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
